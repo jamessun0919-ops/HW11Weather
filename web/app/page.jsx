@@ -1,8 +1,9 @@
 import { fetchWeeklyForecast, parseForecast, CwaApiError } from "../lib/cwaClient";
 import { COUNTIES, DEFAULT_TOWNSHIP } from "../lib/locations";
 import { buildDayCards, fmtTemp } from "../lib/reportBuilder";
-import { VIEWBOX, COUNTY_PATHS, HEADLINE_CITIES } from "../lib/taiwanMap";
+import { HEADLINE_CITIES } from "../lib/taiwanMap";
 import CountyPicker from "../components/CountyPicker";
+import TaiwanMapClient from "../components/TaiwanMapClient";
 
 async function loadHeadlineCity(h) {
   try {
@@ -31,22 +32,7 @@ export default async function HomePage() {
       <CountyPicker counties={COUNTIES} />
 
       <div className="map-wrap">
-        <svg viewBox={VIEWBOX} xmlns="http://www.w3.org/2000/svg">
-          {Object.entries(COUNTY_PATHS).map(([name, d]) => (
-            <path key={name} className="county" fillRule="evenodd" d={d} />
-          ))}
-          {headlineCities.map((h) => (
-            <a key={h.city} className="pin" href={`/select/${encodeURIComponent(h.city)}`}>
-              <circle cx={h.x} cy={h.y} r={5} />
-              <text className="city-name" x={h.x + 10} y={h.y - 4}>
-                {h.city}
-              </text>
-              <text className="city-temp" x={h.x + 10} y={h.y + 9}>
-                {h.icon} {h.maxT}°
-              </text>
-            </a>
-          ))}
-        </svg>
+        <TaiwanMapClient headlineCities={headlineCities} />
       </div>
 
       <footer className="index-footer">資料版權屬中央氣象署所有・每 10 分鐘重新驗證一次資料</footer>

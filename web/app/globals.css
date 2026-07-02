@@ -11,9 +11,6 @@
   --series-max: #e66767;
   --series-min: #3987e5;
   --series-pop: #199e70;
-  --county-fill: #24344a;
-  --county-stroke: #4a6483;
-  --pin: #3987e5;
 }
 
 * {
@@ -277,46 +274,37 @@ table th {
   min-width: 240px;
 }
 .map-wrap {
-  max-width: 560px;
+  max-width: 900px;
   margin: 24px auto 0;
   padding: 0 24px 48px;
 }
-.map-wrap svg {
-  width: 100%;
-  height: auto;
-  overflow: visible;
-}
-.county {
-  fill: var(--county-fill);
-  stroke: var(--county-stroke);
-  stroke-width: 1;
-  stroke-linejoin: round;
-}
-.pin circle {
-  fill: var(--pin);
-  stroke: var(--page-plane);
-  stroke-width: 2;
-  transition: r 0.15s ease;
-}
-.pin:hover circle {
-  r: 7;
-}
-.pin text {
-  fill: var(--text-primary);
-  font-size: 11px;
+.map-wrap .leaflet-container {
+  border-radius: 12px;
+  border: 1px solid var(--border);
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-  pointer-events: none;
 }
-.pin .city-name {
-  font-weight: 600;
+
+/* Leaflet 預設 tooltip/popup 是白底黑字，改成跟深色主題一致，避免文字跟底色對比度太差。
+   用 .map-wrap 疊一層 class 提高優先度，蓋過 leaflet.css 自己的 .leaflet-tooltip 規則
+   （leaflet.css 是元件內 import，打包順序可能排在 globals.css 後面）。 */
+.map-wrap .leaflet-tooltip {
+  background: var(--surface-1);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  box-shadow: none;
+  font-size: 12px;
+  padding: 4px 8px;
 }
-.pin .city-temp {
-  fill: var(--text-secondary);
-  font-size: 10px;
+.map-wrap .leaflet-tooltip-right::before {
+  border-right-color: var(--surface-1);
 }
-a.pin {
-  cursor: pointer;
+.map-wrap .city-pin-tooltip strong {
+  color: var(--text-primary);
 }
+.map-wrap .leaflet-container a.leaflet-popup-close-button {
+  color: var(--text-secondary);
+}
+
 .index-footer {
   text-align: center;
   color: var(--text-muted);
