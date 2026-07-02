@@ -10,7 +10,16 @@ const COUNTY_STROKE = "#4a6483";
 const COUNTY_HOVER_FILL = "#2e4666";
 const PIN_COLOR = "#3987e5";
 
-const TAIWAN_CENTER = [23.7, 120.9];
+// 台灣本島實際經緯度範圍（算自 taiwanCountiesGeo.json）加一點邊界留白，
+// 讓地圖初始畫面跟可拖曳範圍都聚焦在台灣本身，不要把福建海岸線大片露出來。
+const TAIWAN_BOUNDS = [
+  [21.7, 119.8],
+  [25.6, 122.3],
+];
+const MAX_PAN_BOUNDS = [
+  [20.5, 118.5],
+  [26.3, 123.5],
+];
 
 function countyStyle() {
   return { fillColor: COUNTY_FILL, fillOpacity: 1, color: COUNTY_STROKE, weight: 1 };
@@ -32,11 +41,12 @@ export default function TaiwanLeafletMap({ headlineCities }) {
 
   return (
     <MapContainer
-      center={TAIWAN_CENTER}
-      zoom={8}
-      minZoom={7}
+      bounds={TAIWAN_BOUNDS}
+      maxBounds={MAX_PAN_BOUNDS}
+      maxBoundsViscosity={1.0}
+      minZoom={8}
       maxZoom={12}
-      style={{ height: "600px", width: "100%", background: "#0d0d0d" }}
+      style={{ height: "760px", width: "100%", background: "#0d0d0d" }}
       scrollWheelZoom={true}
     >
       <TileLayer
