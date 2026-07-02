@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{{ city }}｜選擇地區</title>
+<style>
+  .viz-root {
+    --surface-1:      #1a1a19;
+    --page-plane:      #0d0d0d;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --gridline:       #2c2c2a;
+    --border:         rgba(255,255,255,0.10);
+    --series-max:     #e66767;
+    --series-min:     #3987e5;
+    --series-pop:     #199e70;
+  }
+  * { box-sizing: border-box; }
+  body.viz-root {
+    margin: 0;
+    background: var(--page-plane);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  .crumb-nav {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 16px 24px 0;
+    font-size: 13px;
+  }
+  .crumb-nav a { color: var(--text-secondary); text-decoration: none; }
+  .crumb-nav a:hover { color: var(--text-primary); text-decoration: underline; }
+
+  header { max-width: 1040px; margin: 0 auto; padding: 12px 24px 4px; }
+  header h1 { margin: 0 0 4px; font-size: 26px; font-weight: 600; }
+  header p { margin: 0; color: var(--text-secondary); font-size: 14px; }
+
+  main { max-width: 1040px; margin: 0 auto; padding: 16px 24px 48px; }
+
+  .township-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 2px;
+    background: var(--gridline);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .township-card {
+    background: var(--surface-1);
+    padding: 18px 12px;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: background 0.15s ease;
+  }
+  .township-card:hover { background: #232320; }
+  .township-card .name { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+  .township-card .icon { font-size: 26px; margin: 4px 0; }
+  .township-card .wx { font-size: 12px; color: var(--text-secondary); min-height: 32px; }
+  .township-card .temps { font-size: 14px; margin-top: 4px; }
+  .township-card .temps .max { color: var(--series-max); font-weight: 600; }
+  .township-card .temps .min { color: var(--series-min); }
+  .township-card .pop { font-size: 12px; color: var(--series-pop); margin-top: 2px; }
+</style>
+</head>
+<body class="viz-root">
+  <nav class="crumb-nav"><a href="{{ back_to_index }}">🏝️ 地圖首頁</a></nav>
+  <header>
+    <h1>{{ city }}｜選擇地區</h1>
+    <p>點選鄉鎮市區查看該地未來一週天氣預報</p>
+  </header>
+  <main>
+    <div class="township-grid">
+      {% for t in townships %}
+      <a class="township-card" href="{{ t.href }}">
+        <div class="name">{{ t.name }}</div>
+        <div class="icon">{{ t.icon }}</div>
+        <div class="wx">{{ t.wx }}</div>
+        <div class="temps"><span class="max">{{ t.max_t }}°</span> / <span class="min">{{ t.min_t }}°</span></div>
+        <div class="pop">💧 {{ t.pop_pct }}%</div>
+      </a>
+      {% endfor %}
+    </div>
+  </main>
+</body>
+</html>

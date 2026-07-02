@@ -1,0 +1,15 @@
+# 金鑰
+CWAtoken
+.env
+
+# 產生的報告與備份資料
+output/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Claude Code 本機設定
+.claude/
